@@ -22,7 +22,7 @@ public class EstudanteService {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		}
 	
-	return ResponseEntity.status(HttpStatus.OK).body(estudante);
+		return ResponseEntity.status(HttpStatus.OK).body(estudante);
 	}
 	
 	public ResponseEntity<List<Estudante>> buscarTodosEstudantes(){
@@ -47,7 +47,6 @@ public class EstudanteService {
 		}
 		
 		listaEstudantes.put(estudante.getId(), estudante);
-		
 		return ResponseEntity.status(HttpStatus.OK).body(estudante);
 	}
 	
