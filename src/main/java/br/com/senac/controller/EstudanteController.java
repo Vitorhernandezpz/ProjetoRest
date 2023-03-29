@@ -3,6 +3,10 @@ package br.com.senac.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.senac.domain.Estudante;
@@ -47,5 +52,18 @@ public class EstudanteController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> removerEstudante(@PathVariable Long id){
 		return estudanteService.removerUsuario(id);
+	}
+	
+	@GetMapping("paginacao")
+	public Page<Estudante> buscarEstudantePorPaginacao(@RequestParam(defaultValue = "0") Integer pagina,
+			@RequestParam(defaultValue="5") Integer itensPorPagina,@RequestParam(defaultValue="nome") String ordenacao,
+			@RequestParam(defaultValue= "ASC")String tipoOrdenacao){
+		
+		Direction direction = Direction.ASC;
+		
+		if(("DESC").equals(tipoOrdenacao)) {
+			direction = Direction.DESC;
+		}
+		return estudanteService.buscaEstudantePorPaginacao(PageRequest.of(pagina, itensPorPagina,Sort.by(direction,ordenacao)));
 	}
 }
